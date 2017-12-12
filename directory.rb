@@ -17,13 +17,11 @@ def print_header
 end
 
 def print(students)
-  puts "Enter the first letter of the names of students to display"
-  first_letter = gets.chomp.upcase
-  students.each_with_index do |student, index|
-      if student[:name].length < 12
-  puts " #{(index + 1)} #{student[:name]} (#{student[:cohort]} cohort)"
-  end
-end
+  counter = 0
+  while counter < students.count
+
+  puts "#{students[counter].fetch(:name)}"
+  counter += 1
 end
 end
 
