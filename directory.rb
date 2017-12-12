@@ -18,11 +18,12 @@ end
 
 def print(students)
   puts "Enter the first letter of the names of students to display"
-  first_letter = gets.chomp
+  first_letter = gets.chomp.upcase
   students.each_with_index do |student, index|
-    if student[:name][0] == first_letter
+      if student[:name].length < 12
   puts " #{(index + 1)} #{student[:name]} (#{student[:cohort]} cohort)"
   end
+end
 end
 end
 
