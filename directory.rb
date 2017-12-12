@@ -1,26 +1,49 @@
 def input_students
   students = []
+  months = ["january",
+            "february",
+            "march",
+            "april",
+            "may",
+            "june",
+            "july",
+            "august",
+            "september",
+            "october",
+            "november",
+            "december"]
+
   while true do
-  puts "Please enter student name:"
+    puts "Please enter student name:"
     name = gets.chomp
-    if name.empty? == true
-      break
-    else
+    puts "Please enter cohort:"
+    cohort = gets.chomp.downcase
 
+      if name.empty?
+      name = "noname"
+    end
 
-  puts "Please enter student hobby:"
-    hobby = gets.chomp
-  puts "Please enter height(cm):"
-    height = gets.chomp
-  puts "Please enter nationality:"
-    nationality = gets.chomp
-  puts "To finish, just hit return twice"
-
-    students << {name: name, hobby: hobby, height: height, nationality: nationality,  cohort: :november}
-    puts "Now we have #{students.count} students"
-
+    while true do
+      if cohort.empty?
+      cohort = "nocohort"
+      elsif !months.include?(cohort)
+      puts "Cohort not found, please try again"
+      cohort = gets.chomp
+     else break
+  end
 end
-end
+
+  students << {name: name, cohort: cohort.to_sym}
+
+  puts "Now we have #{students.count} students"
+
+  puts "Do you wish to add another student y/n?"
+  choice = gets.chomp
+    if choice != "y"
+    break
+  end
+
+  end
 students
 end
 
@@ -31,8 +54,8 @@ def print_header
 end
 
 def print(students)
-  students.each do |student|
-  puts "name: #{student[:name]}".center(20) + " cohort:#{student[:cohort]}".center(10)
+  students.each_with_index do |student, index|
+  puts "#{(index + 1)}. name: #{student[:name]}".center(20) + " cohort: #{student[:cohort]}".center(10)
   end
 end
 
