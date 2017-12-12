@@ -1,12 +1,26 @@
 def input_students
-  puts "Please enter the names of the students"
-  puts "To finish, just hit return twice"
   students = []
-  name = gets.chomp
-  while !name.empty? do
-    students << {name: name, cohort: :november}
+  while true do
+  puts "Please enter student name:"
+    name = gets.chomp
+    if name.empty? == true
+      break
+
+    else
+
+
+  puts "Please enter student hobby:"
+    hobby = gets.chomp
+  puts "Please enter height(cm):"
+    height = gets.chomp
+  puts "Please enter nationality:"
+    nationality = gets.chomp
+  puts "To finish, just hit return twice"
+
+    students << {name: name, hobby: hobby, height: height, nationality: nationality,  cohort: :november}
     puts "Now we have #{students.count} students"
-  name = gets.chomp
+
+end
 end
 students
 end
@@ -14,15 +28,14 @@ end
 def print_header
   puts "The Students of Villains Academy"
   puts "----------"
+
 end
 
 def print(students)
-  counter = 0
-  while counter < students.count
-
-  puts "#{students[counter].fetch(:name)}"
-  counter += 1
-end
+  students.each do |student|
+  puts "name: #{student[:name]} \nhobby: #{student[:hobby]} \nheight: #{student[:height]} \nnationality: #{student[:nationality]} \ncohort:#{student[:cohort]}"
+  puts
+  end
 end
 
 def print_footer(names)
