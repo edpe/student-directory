@@ -5,7 +5,6 @@ def input_students
     name = gets.chomp
     if name.empty? == true
       break
-
     else
 
 
@@ -33,8 +32,7 @@ end
 
 def print(students)
   students.each do |student|
-  puts "name: #{student[:name]} \nhobby: #{student[:hobby]} \nheight: #{student[:height]} \nnationality: #{student[:nationality]} \ncohort:#{student[:cohort]}"
-  puts
+  puts "name: #{student[:name]}".center(20) + " cohort:#{student[:cohort]}".center(10)
   end
 end
 
