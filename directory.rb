@@ -17,7 +17,7 @@ def input_students
     puts "Please enter student name:"
     name = gets.slice(0..-2)
     if name.empty?
-    name = "na name given"
+    name = "no name given"
   end
 while true do
     puts "Please enter cohort:"
@@ -37,7 +37,11 @@ while true do
 
 end
 
+if name == "no name given" && cohort = "no recorded"
+  puts "no students added"
+else
   students << {name: name, cohort: cohort.to_sym}
+end
 
   puts "Now we have #{students.count} students"
 
@@ -65,7 +69,9 @@ def print(students)
 end
 
 def print_footer(names)
-  if names.count <= 1
+  if names.count == 0
+  end
+  if names.count == 1
   puts "Overall, we have #{names.count} great student"
 else
   puts "Overall, we have #{names.count} great students"
