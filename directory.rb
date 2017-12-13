@@ -27,7 +27,7 @@ def input_students
       if cohort.empty?
       cohort = "nocohort"
       elsif !months.include?(cohort)
-      puts "Cohort not found, please try again"
+      puts "That doesn't seem to be a month I recognise, please try again or press enter to leave blank"
       cohort = gets.chomp
      else break
   end
@@ -54,8 +54,11 @@ def print_header
 end
 
 def print(students)
-  students.each_with_index do |student, index|
-  puts "#{(index + 1)}. name: #{student[:name]}".center(20) + " cohort: #{student[:cohort]}".center(10)
+  #generates array of all cohorts
+  cohort_array = students.map {|x| x.fetch(:cohort)}.uniq
+  cohort_array.each do |cohort|
+    puts students.select { |students| puts "#{students[:name]}, #{students[:cohort]} cohort".center(80) if students[:cohort] == cohort }
+  puts
   end
 end
 
