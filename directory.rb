@@ -15,9 +15,9 @@ def input_students
 
   while true do
     puts "Please enter student name:"
-    name = gets.chomp
+    name = gets.slice(0..-2)
     puts "Please enter cohort:"
-    cohort = gets.chomp.downcase
+    cohort = gets.slice(0..-2).downcase
 
       if name.empty?
       name = "noname"
@@ -38,7 +38,7 @@ end
   puts "Now we have #{students.count} students"
 
   puts "Do you wish to add another student y/n?"
-  choice = gets.chomp
+  choice = gets.slice(0..-2)
     if choice != "y"
     break
   end
