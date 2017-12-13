@@ -16,21 +16,25 @@ def input_students
   while true do
     puts "Please enter student name:"
     name = gets.slice(0..-2)
+    if name.empty?
+    name = "na name given"
+  end
+while true do
     puts "Please enter cohort:"
     cohort = gets.slice(0..-2).downcase
 
-      if name.empty?
-      name = "noname"
+
+      if cohort.empty?
+      cohort = "no recorded"
+      break
+
+      elsif !months.include?(cohort)
+      puts "That doesn't seem to be a month I recognise, please try again or press enter twice to leave blank"
+
+    else
+      break
     end
 
-    while true do
-      if cohort.empty?
-      cohort = "nocohort"
-      elsif !months.include?(cohort)
-      puts "That doesn't seem to be a month I recognise, please try again or press enter to leave blank"
-      cohort = gets.chomp
-     else break
-  end
 end
 
   students << {name: name, cohort: cohort.to_sym}
@@ -42,7 +46,6 @@ end
     if choice != "y"
     break
   end
-
   end
 students
 end
@@ -50,7 +53,6 @@ end
 def print_header
   puts "The Students of Villains Academy".center(80)
   puts "----------".center(80)
-
 end
 
 def print(students)
