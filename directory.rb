@@ -48,8 +48,8 @@ students
 end
 
 def print_header
-  puts "The Students of Villains Academy"
-  puts "----------"
+  puts "The Students of Villains Academy".center(80)
+  puts "----------".center(80)
 
 end
 
@@ -63,7 +63,11 @@ def print(students)
 end
 
 def print_footer(names)
+  if names.count <= 1
+  puts "Overall, we have #{names.count} great student"
+else
   puts "Overall, we have #{names.count} great students"
+end
 end
 
 students = input_students
