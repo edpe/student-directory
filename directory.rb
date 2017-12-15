@@ -44,7 +44,7 @@ def show_students
   print_header
   print_student_list
   print_footer
-  puts "Hit Enter to return to main menu"
+  hit_enter
   STDIN.gets.chomp
 
 end
@@ -52,13 +52,17 @@ end
 def make_choice(selection)
   case selection
     when "1"
-      input_students
+    input_students
     when "2"
       show_students
     when "3"
+      successful_selection("3. save the list to students.csv")
       save_students
+      process_complete("saved")
     when "4"
+      successful_selection("4. load the list from students.csv")
       load_students
+      process_complete("loaded")
     when "9"
       exit # this will cause the program to terminate
     else
@@ -143,6 +147,23 @@ end
 
 def clear_screen
   system("clear")
+end
+
+def successful_selection(selection)
+  bar
+  puts "You have selected #{selection}".center(80)
+  bar
+end
+
+def hit_enter
+  puts "   Hit Enter to continue   ".center(80, "*")
+end
+
+def process_complete(action)
+  puts "file #{action}".center(80)
+  puts
+  hit_enter
+  STDIN.gets.chomp
 end
 
 initialise
