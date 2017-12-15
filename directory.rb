@@ -34,8 +34,8 @@ def print_menu
   bar
   puts "1. Input the students"
   puts "2. Show the students"
-  puts "3. Save the list"
-  puts "4. Load the list"
+  puts "3. Save a list"
+  puts "4. Load a list"
   puts "9. Exit" # 9 because we'll be adding more items
 end
 
@@ -56,11 +56,11 @@ def make_choice(selection)
     when "2"
       show_students
     when "3"
-      successful_selection("3. save the list")
+      successful_selection("3. Save the list")
       save_students(choose_file("save"))
       action_complete("saved")
     when "4"
-      successful_selection("4. load the list")
+      successful_selection("4. Load a list")
       load_students(choose_file("load"))
       action_complete("loaded")
     when "9"
@@ -107,26 +107,35 @@ def choose_file(action)
     return filename
 end
 
-def save_students(filename)
+def save_students(filename = "students.csv")
   #open the file for writing
-  file = File.open(filename, "w")
-  #iterate over the array of Students
-  @students.each do |student|
-    student_data = [student[:name], student[:cohort]]
-    csv_line = student_data.join(",")
-    file.puts csv_line
-  end
-  file.close
+  File.open(filename, "w") do |file|
+    #iterate over the array of Students
+    @students.each do |student|
+      student_data = [student[:name], student[:cohort]]
+      csv_line = student_data.join(",")
+      file.puts csv_line
+      end
+    end
+  puts "saving file as \"#{filename}\"...".center(80)  
+  puts
 end
 
 def load_students(filename = "students.csv")
   @students = []
-  file = File.open(filename, "r")
-  file.readlines.each do |line|
-    name, cohort = line.chomp.split(',')
-    append_to_students(name, cohort)
+  File.open(filename, "r") do |file|
+    file.readlines.each do |line|
+      name, cohort = line.chomp.split(',')
+      append_to_students(name, cohort)
+    end
   end
-  file.close
+  loaded_message(filename)
+end
+
+def loaded_message(filename)
+  puts bar
+  puts "Loading #{@students.count} students from #{filename}...".center(80)
+  puts bar
 end
 
 def try_load_students
