@@ -58,12 +58,13 @@ def make_choice(selection)
     when "3"
       successful_selection("3. save the list to students.csv")
       save_students
-      process_complete("saved")
+      action_complete("saved")
     when "4"
       successful_selection("4. load the list from students.csv")
       load_students
-      process_complete("loaded")
+      action_complete("loaded")
     when "9"
+      puts "Exited!"
       exit # this will cause the program to terminate
     else
       puts "I don't know what you meant, try again".center(80)
@@ -159,7 +160,7 @@ def hit_enter
   puts "   Hit Enter to continue   ".center(80, "*")
 end
 
-def process_complete(action)
+def action_complete(action)
   puts "file #{action}".center(80)
   puts
   hit_enter
