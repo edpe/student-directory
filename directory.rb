@@ -34,8 +34,8 @@ def print_menu
   bar
   puts "1. Input the students"
   puts "2. Show the students"
-  puts "3. Save the list to students.csv"
-  puts "4. Load the list from students.csv"
+  puts "3. Save the list"
+  puts "4. Load the list"
   puts "9. Exit" # 9 because we'll be adding more items
 end
 
@@ -56,12 +56,12 @@ def make_choice(selection)
     when "2"
       show_students
     when "3"
-      successful_selection("3. save the list to students.csv")
-      save_students
+      successful_selection("3. save the list")
+      save_students(choose_file("save"))
       action_complete("saved")
     when "4"
-      successful_selection("4. load the list from students.csv")
-      load_students
+      successful_selection("4. load the list")
+      load_students(choose_file("load"))
       action_complete("loaded")
     when "9"
       puts "Exited!"
@@ -98,9 +98,18 @@ def print_footer
   bar
 end
 
-def save_students
+def choose_file(action)
+  puts "Please enter file name to #{action} - Hit enter to select \"students.csv\" by default"
+  filename = gets.chomp
+  if filename.empty?
+    filename = "students.csv"
+  end
+    return filename
+end
+
+def save_students(filename)
   #open the file for writing
-  file = File.open("students.csv", "w")
+  file = File.open(filename, "w")
   #iterate over the array of Students
   @students.each do |student|
     student_data = [student[:name], student[:cohort]]
@@ -111,6 +120,7 @@ def save_students
 end
 
 def load_students(filename = "students.csv")
+  @students = []
   file = File.open(filename, "r")
   file.readlines.each do |line|
     name, cohort = line.chomp.split(',')
