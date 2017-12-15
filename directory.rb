@@ -1,17 +1,20 @@
-ARGV
+
 @students = [] # an empty array accessible to all methods
 
 def input_students
+  clear_screen
   cohort = :november
-  puts "Please enter the names of the students"
-  puts "To finish, just hit return twice"
+  bar
+  puts "Please enter the names of the students".center(80)
+  puts "To finish, just hit return twice".center(80)
+  bar
   # get the first name
   name = STDIN.gets.chomp
   # while the name is not empty, repeat this code
   while !name.empty? do
     # add the student hash to the array
     append_to_students(name, cohort)
-    puts "Now we have #{@students.count} students"
+    puts "Now we have #{@students.count} students".center(80)
     # get another name from the user
     name = STDIN.gets.chomp
   end
@@ -20,11 +23,15 @@ end
 def interactive_menu
   loop do
     print_menu
-    process(STDIN.gets.chomp)
+    make_choice(STDIN.gets.chomp)
   end
 end
 
 def print_menu
+  clear_screen
+  bar
+  puts "Student Directory Main Menu".center(80)
+  bar
   puts "1. Input the students"
   puts "2. Show the students"
   puts "3. Save the list to students.csv"
@@ -33,41 +40,57 @@ def print_menu
 end
 
 def show_students
+  clear_screen
   print_header
   print_student_list
   print_footer
+  puts "Hit Enter to return to main menu"
+  STDIN.gets.chomp
+
 end
 
-def process(selection)
+def make_choice(selection)
   case selection
-  when "1"
-    input_students
-  when "2"
-    show_students
-  when "3"
-    save_students
-  when "4"
-    load_students
-  when "9"
-    exit # this will cause the program to terminate
-  else
-    puts "I don't know what you meant, try again"
+    when "1"
+      input_students
+    when "2"
+      show_students
+    when "3"
+      save_students
+    when "4"
+      load_students
+    when "9"
+      exit # this will cause the program to terminate
+    else
+      puts "I don't know what you meant, try again".center(80)
   end
 end
 
 def print_header
-  puts "The students of Villains Academy"
-  puts "-------------"
+  bar
+  puts "The students of Villains Academy".center(80, "-")
+  bar
+  puts
 end
 
 def print_student_list
   @students.each do |student|
-    puts "#{student[:name]} (#{student[:cohort]} cohort)"
+    puts "#{student[:name]} (#{student[:cohort]} cohort)".center(80)
+    puts
   end
 end
 
 def print_footer
-  puts "Overall, we have #{@students.count} great students"
+  bar
+  if @students.count == 1
+    puts "Currently, we have just #{@students.count} great student".center(80)
+  elsif @students.count > 1
+
+    puts "Overall, we have #{@students.count} great students".center(80)
+  else
+    puts "We currently have no students enrolled"
+  end
+  bar
 end
 
 def save_students
@@ -109,5 +132,17 @@ def append_to_students(name, cohort)
   @students << {name: name, cohort: cohort.to_sym}
 end
 
-try_load_students
-interactive_menu
+def initialise
+  try_load_students
+  interactive_menu
+end
+
+def bar
+  puts "".center(80,"-")
+end
+
+def clear_screen
+  system("clear")
+end
+
+initialise
