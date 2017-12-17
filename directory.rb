@@ -1,5 +1,12 @@
-
+require 'csv'
 @students = [] # an empty array accessible to all methods
+
+
+def initialise
+  try_load_students
+  interactive_menu
+end
+
 
 def input_students
   clear_screen
@@ -8,7 +15,6 @@ def input_students
   puts "Please enter the names of the students".center(80)
   puts "To finish, just hit return twice".center(80)
   bar
-  # get the first name
   name = STDIN.gets.chomp
   # while the name is not empty, repeat this code
   while !name.empty? do
@@ -20,12 +26,24 @@ def input_students
   end
 end
 
+
+def show_students
+  clear_screen
+  print_header
+  print_student_list
+  print_footer
+  hit_enter
+  STDIN.gets.chomp
+end
+
+
 def interactive_menu
   loop do
     print_menu
     make_choice(STDIN.gets.chomp)
   end
 end
+
 
 def print_menu
   clear_screen
@@ -39,15 +57,6 @@ def print_menu
   puts "9. Exit" # 9 because we'll be adding more items
 end
 
-def show_students
-  clear_screen
-  print_header
-  print_student_list
-  print_footer
-  hit_enter
-  STDIN.gets.chomp
-
-end
 
 def make_choice(selection)
   case selection
@@ -71,6 +80,7 @@ def make_choice(selection)
   end
 end
 
+
 def print_header
   bar
   puts "The students of Villains Academy".center(80, "-")
@@ -78,12 +88,14 @@ def print_header
   puts
 end
 
+
 def print_student_list
   @students.each do |student|
     puts "#{student[:name]} (#{student[:cohort]} cohort)".center(80)
     puts
   end
 end
+
 
 def print_footer
   bar
@@ -98,6 +110,7 @@ def print_footer
   bar
 end
 
+
 def choose_file(action)
   puts "Please enter file name to #{action} - Hit enter to select \"students.csv\" by default"
   filename = gets.chomp
@@ -107,36 +120,34 @@ def choose_file(action)
     return filename
 end
 
+
 def save_students(filename = "students.csv")
-  #open the file for writing
-  File.open(filename, "w") do |file|
-    #iterate over the array of Students
+  CSV.open(filename, "w") do |file|
     @students.each do |student|
-      student_data = [student[:name], student[:cohort]]
-      csv_line = student_data.join(",")
-      file.puts csv_line
+      file << [student[:name], student[:cohort]]
       end
     end
-  puts "saving file as \"#{filename}\"...".center(80)  
+  puts "saving file as \"#{filename}\"...".center(80)
   puts
 end
 
+
 def load_students(filename = "students.csv")
   @students = []
-  File.open(filename, "r") do |file|
-    file.readlines.each do |line|
-      name, cohort = line.chomp.split(',')
+  CSV.foreach(filename) do |line|
+      name = line[0]; cohort = line[1]
       append_to_students(name, cohort)
     end
-  end
-  loaded_message(filename)
+  load_message(filename)
 end
 
-def loaded_message(filename)
+
+def load_message(filename)
   puts bar
   puts "Loading #{@students.count} students from #{filename}...".center(80)
   puts bar
 end
+
 
 def try_load_students
   filename = ARGV.first # first argument from the command line
@@ -152,21 +163,9 @@ def try_load_students
   end
 end
 
+
 def append_to_students(name, cohort)
   @students << {name: name, cohort: cohort.to_sym}
-end
-
-def initialise
-  try_load_students
-  interactive_menu
-end
-
-def bar
-  puts "".center(80,"-")
-end
-
-def clear_screen
-  system("clear")
 end
 
 def successful_selection(selection)
@@ -175,9 +174,6 @@ def successful_selection(selection)
   bar
 end
 
-def hit_enter
-  puts "   Hit Enter to continue   ".center(80, "*")
-end
 
 def action_complete(action)
   puts "file #{action}".center(80)
@@ -185,5 +181,21 @@ def action_complete(action)
   hit_enter
   STDIN.gets.chomp
 end
+
+
+def hit_enter
+  puts "   Hit Enter to continue   ".center(80, "*")
+end
+
+
+def bar
+  puts "".center(80,"-")
+end
+
+
+def clear_screen
+  system("clear")
+end
+
 
 initialise
