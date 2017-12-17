@@ -33,7 +33,6 @@ def show_students
   print_student_list
   print_footer
   hit_enter
-  STDIN.gets.chomp
 end
 
 
@@ -54,6 +53,7 @@ def print_menu
   puts "2. Show the students"
   puts "3. Save a list"
   puts "4. Load a list"
+  puts "5. Read source code"
   puts "9. Exit" # 9 because we'll be adding more items
 end
 
@@ -72,6 +72,10 @@ def make_choice(selection)
       successful_selection("4. Load a list")
       load_students(choose_file("load"))
       action_complete("loaded")
+    when "5"
+      successful_selection("Read Source Code")
+      puts File.read(__FILE__)
+      hit_enter
     when "9"
       puts "Exited!"
       exit # this will cause the program to terminate
@@ -117,7 +121,7 @@ def choose_file(action)
   if filename.empty?
     filename = "students.csv"
   end
-    return filename
+  return filename
 end
 
 
@@ -179,12 +183,12 @@ def action_complete(action)
   puts "file #{action}".center(80)
   puts
   hit_enter
-  STDIN.gets.chomp
 end
 
 
 def hit_enter
   puts "   Hit Enter to continue   ".center(80, "*")
+  STDIN.gets.chomp
 end
 
 
